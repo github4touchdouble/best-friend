@@ -1,4 +1,4 @@
-'pandas'
-'numpy'
-'scikit-learn'
-'lifelines'
+pandas
+numpy
+scikit-learn
+lifelines
