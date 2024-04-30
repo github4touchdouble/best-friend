@@ -1,11 +1,5 @@
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from lifelines.utils import  concordance_index
-from datetime import datetime
-
-# Data-handler classes: 
-class DataReader:
+from config import *
+class Reader:
     @staticmethod 
     def read_csv(dataSetPath, columns = [], **params):
         df = pd.read_csv(dataSetPath)
@@ -24,52 +18,25 @@ class DataReader:
                 num = int(df.shape[0] * num)
 
             if num > df.shape[0]:
-                Debug.puts(actor=DataReader, status=418, message="Number of rows to display is greater than the number of rows in the dataset. Displaying the entire dataset.")
+                Debug.puts(actor=Reader, status=418, message="Number of rows to display is greater than the number of rows in the dataset. Displaying the entire dataset.")
                 num = df.shape[0]
             if num < 0:
-                Debug.puts(actor=DataReader, status=418, message="Number of rows to display is negative. Displaying the entire dataset.")
+                Debug.puts(actor=Reader, status=418, message="Number of rows to display is negative. Displaying the entire dataset.")
                 num = df.shape[0]
             
             df = df.head(num)
         # --------------------
-        DataReader.print_df_stats(df)
+        Reader.print_df_stats(df)
         return df
 
     @staticmethod
     def print_df_stats(df):
         state = "Shape: " + str(df.shape) + "\n"
         state += "NaN rows: " + str(len(df[df.isna().any(axis=1)])) + "\n"
-        Debug.puts(actor=DataReader, status=101, message=state)
-
-class DebugState:
-    INFO = 100
-    WARNING = 418
-    ERROR = 500
-    @staticmethod
-    def get(state):
-        if state == 100:
-            return "INFO"
-        elif state == 101:
-            return "META INFO"
-        elif state == 418:
-            return "WARNING"
-        elif state == 500:
-            return "ERROR"
-        else:
-            return "UNKNOWN"
+        Debug.puts(actor=Reader, status=101, message=state)
 
 
-class Debug:
-    @staticmethod
-    def puts(actor, status, message):
-        status = DebugState.get(state=status)
-        header = actor.__name__ + " " + status + ":"    
-        underline = "-" * len(header)
-        print(header + "\n" + underline + "\n" + message + "\n")
-
-
-
-class DataScaler:
+class Scaler:
     data_parameters = {}
     meta_parameters = {}
 
@@ -160,8 +127,8 @@ class DataScaler:
         return res
 
     def _process_categorical_cols(self, data):
-        res = DataScaler._one_hot_encode_categorical_cols(data)
-        res = DataScaler._binary_cols_to_numerical(res)
+        res = Scaler._one_hot_encode_categorical_cols(data)
+        res = Scaler._binary_cols_to_numerical(res)
         if "ignored_cols" in self.data_parameters:
             res = pd.merge(res, self.raw_data[self.data_parameters["ignored_cols"]], left_index=True, right_index=True)
         res.reset_index(drop=True, inplace=True)
@@ -177,8 +144,35 @@ class DataScaler:
         "binary_cols": _binary_cols_to_numerical
         }
 
-    
-# Other functions: 
+
+class DebugState:
+    INFO = 100
+    WARNING = 418
+    ERROR = 500
+    @staticmethod
+    def get(state):
+        if state == 100:
+            return "INFO"
+        elif state == 101:
+            return "META INFO"
+        elif state == 418:
+            return "WARNING"
+        elif state == 500:
+            return "ERROR"
+        else:
+            return "UNKNOWN"
+
+
+class Debug:
+    @staticmethod
+    def puts(actor, status, message):
+        status = DebugState.get(state=status)
+        header = actor.__name__ + " " + status + ":"    
+        underline = "-" * len(header)
+        print(header + "\n" + underline + "\n" + message + "\n")
+
+
+
 
 def categorize_cols(labeled_cols):
     def _categorize(cat, labeled_cols):
