@@ -1,2 +1,1 @@
-import data
-from data import *
+from .data import *

@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='smutils',
-    version='0.1.1e',
+    version='0.1.1f',
     packages=find_packages(include=['smutils']),
     install_requires=['pandas', 'numpy', 'scikit-learn', 'lifelines'],
     description='Collection of useful classes and functions',
