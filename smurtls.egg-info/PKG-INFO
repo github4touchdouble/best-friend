@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Name: smurtls
+Version: 0.1a7
+Summary: Collection of useful classes and functions
+Author: Jan P. Hummel
+Author-email: jan.hummel@med.uni-muenchen.de
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Utilities
