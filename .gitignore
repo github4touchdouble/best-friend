@@ -2,4 +2,4 @@ venv
 var
 build
 dist
-smutils.egg-info
+smurtls.egg-info
