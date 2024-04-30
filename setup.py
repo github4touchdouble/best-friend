@@ -1,5 +1,7 @@
 from setuptools import find_packages, setup
 
+
+
 setup(
     name='smutils',
     version='0.1.0',
@@ -13,5 +15,5 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Topic :: Utilities'
-    ],
+    ]
 )
