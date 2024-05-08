@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='smurtls',
-    version='0.1a7',
+    version='0.1a8',
     packages=find_packages(include=['smurtls']),
     install_requires=['pandas', 'numpy', 'scikit-learn', 'lifelines'],
     description='Collection of useful classes and functions',
