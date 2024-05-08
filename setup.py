@@ -1,8 +1,9 @@
 from setuptools import find_packages, setup
+import sys
 
 setup(
     name='smurtls',
-    version='0.1a8',
+    version='0.1a9',
     packages=find_packages(include=['smurtls']),
     install_requires=['pandas', 'numpy', 'scikit-learn', 'lifelines'],
     description='Collection of useful classes and functions',
@@ -15,4 +16,5 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Utilities'
     ]
+
 )

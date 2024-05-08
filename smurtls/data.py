@@ -7,10 +7,15 @@ from datetime import datetime
 class Reader:
     @staticmethod 
     def read_csv(dataSetPath, columns = [], **params):
+        verbose = False
         df = pd.read_csv(dataSetPath)
         if len(columns) != 0:
             df = df[columns]
         # --------------------
+        if "verbose" in params and params["verbose"]:
+            if params["verbose"] == 1:
+                verbose = True
+            
         if "dropna_rows" in params and params["dropna_rows"]:
             na_mask = df.isna().any(axis=1)
             df = df[~na_mask]
@@ -31,7 +36,8 @@ class Reader:
             
             df = df.head(num)
         # --------------------
-        Reader.print_df_stats(df)
+        if verbose:
+            Reader.print_df_stats(df)
         return df
 
     @staticmethod
@@ -119,7 +125,7 @@ class Scaler:
                 if data[col].dtype == bool:
                     data[col] = data[col].astype(float)
                 elif data[col].dtype == 'object' and any(value.lower() in {'yes', 'no', 'ja', 'nein'} for value in data[col].unique()):
-                    data[col] = data[col].str.lower().replace({"yes": 1.0, "no": 0.0, "ja": 1.0, "nein": 0.0})
+                    data[col] = data[col].infer_objects(copy=False).str.lower().replace({"yes": 1.0, "no": 0.0, "ja": 1.0, "nein": 0.0})
                 else:
                     data[col] = data[col].map({uniqs[0]: 0.0, uniqs[1]: 1.0})
         
@@ -199,13 +205,16 @@ def categorize_cols(labeled_cols):
 
 class Eval:
     @staticmethod
-    def hci(y_pred, labels, breaks, time):
+    def hci(y_pred, labels_time, labels_status, breaks, time):
         """
         y_pred: shape (n_samples, n_intervals) -> [Prediction_at_interval_1, ..., Prediction_at_interval_n]
         labels: shape (n_samples, 2) -> [Time_OS, Status_OS]
         breaks: shape (n_intervals+1,) -> [0, ..., n_intervals]
         time: point in time of interest in years
         """
-        return concordance_index(labels["Time_OS"], np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1], labels["Status_OS"])
+        print(len(np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1]))
+        print(len(labels_time))
+        #print(np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1])
+        return concordance_index(labels_time, np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1], labels_status)
         
 

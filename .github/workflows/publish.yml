@@ -18,6 +18,14 @@ jobs:
               run: |
                   python -m pip install --upgrade pip
                   pip install setuptools wheel twine
+            - name: Run tests
+              run: |
+                  python -m unittest discover -s tests
+                  TEST_RESULT=$?
+                  if [ $TEST_RESULT -ne 0 ]; then
+                    echo "Tests failed. Aborting further steps."
+                    exit $TEST_RESULT
+                  fi
             - name: Create temp build dir
               run: mkdir dist
             - name: Build distribution
