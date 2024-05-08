@@ -6,6 +6,7 @@ setup(
     packages=find_packages(include=['smurtls']),
     install_requires=['pandas', 'numpy', 'scikit-learn', 'lifelines'],
     description='Collection of useful classes and functions',
+    long_description=open('README.md').read(),
     author='Jan P. Hummel',
     author_email='jan.hummel@med.uni-muenchen.de',
     classifiers=[
