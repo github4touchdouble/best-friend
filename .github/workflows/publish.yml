@@ -16,9 +16,9 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install setuptools wheel 
             - name: Create temp build dir
-              run: mkdir temp_dist
+              run: mkdir dist
             - name: Build distribution
-              run: python setup.py sdist bdist_wheel --dist-dir temp_dist
+              run: python setup.py bdist_wheel
     deploy:
         runs-on: ubuntu-latest
         needs: build
@@ -36,7 +36,7 @@ jobs:
                   python -m pip install --upgrade pip
                   pip install twine
             - name: Publish to PyPI
-              run: twine upload temp_dist/*
+              run: python -m twine upload dist/*
             - name: Clean up
-              run: rm -rf temp_dist
+              run: rm -rf dist
             
