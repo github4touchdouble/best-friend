@@ -212,9 +212,6 @@ class Eval:
         breaks: shape (n_intervals+1,) -> [0, ..., n_intervals]
         time: point in time of interest in years
         """
-        print(len(np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1]))
-        print(len(labels_time))
-        #print(np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1])
         return concordance_index(labels_time, np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1], labels_status)
         
 

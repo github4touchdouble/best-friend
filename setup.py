@@ -3,7 +3,7 @@ import sys
 
 setup(
     name='smurtls',
-    version='0.1a9',
+    version='0.1a10',
     packages=find_packages(include=['smurtls']),
     install_requires=['pandas', 'numpy', 'scikit-learn', 'lifelines'],
     description='Collection of useful classes and functions',
