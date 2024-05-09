@@ -20,8 +20,12 @@ jobs:
                   pip install -r requirements.txt
             - name: Run tests
               run: |
-                  pip install pandas
                   python -m unittest discover -s tests
+                  TEST_RESULT=$?
+                  if [ $TEST_RESULT -ne 0 ]; then
+                    echo "Tests failed. Aborting further steps."
+                    exit $TEST_RESULT
+                  fi
                   
             - name: Create temp build dir
               run: mkdir dist
