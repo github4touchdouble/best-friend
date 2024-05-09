@@ -22,6 +22,24 @@ class TestEval(unittest.TestCase):
         computed_c_index = Eval.hci(y_pred, labels_time, labels_status, breaks, time)
         self.assertAlmostEqual(computed_c_index, expected_c_index, places=4, msg="Perfect Predictions C-index mismatch")
 
+    def test_hci_error_predictions(self):
+        y_pred = np.array([
+            [0.75, 0.25, 0.20],   
+            [0.8, 0.35, 0.70],
+            [0.8, 0.75, 0.74]
+        ])
+        
+        labels_time = np.array([109, 101, 102])
+        labels_status = np.array([1, 1, 1])
+
+        breaks = np.array([0, 100, 150, 200])
+        time = 1.0
+
+        expected_c_index = 0.333333 
+        computed_c_index = Eval.hci(y_pred, labels_time, labels_status, breaks, time)
+        self.assertAlmostEqual(computed_c_index, expected_c_index, places=4, msg="Censored Predictions C-index mismatch")
+        
+
    
         
 
