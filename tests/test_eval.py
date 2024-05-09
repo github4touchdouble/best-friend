@@ -6,7 +6,7 @@ class TestEval(unittest.TestCase):
     # --------- Trivial cases ---------
     def test_hci_default(self):
         y_pred = np.array([
-            [0.75,0.25],    
+            [0.75, 0.25],    
             [0.8, 0.35]
         ])                                  # -> predictions for intervals
 
