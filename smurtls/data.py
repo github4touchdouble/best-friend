@@ -208,10 +208,12 @@ class Eval:
     def hci(y_pred, labels_time, labels_status, breaks, time):
         """
         y_pred: shape (n_samples, n_intervals) -> [Prediction_at_interval_1, ..., Prediction_at_interval_n]
-        labels: shape (n_samples, 2) -> [Time_OS, Status_OS]
-        breaks: shape (n_intervals+1,) -> [0, ..., n_intervals]
+        labels_time: shape (n_samples) -> [Time_OS]
+        labels_status: shape (n_samples) -> [Status_OS]
+        breaks: shape (n_intervals+1) -> [0, ..., n_intervals]
         time: point in time of interest in years
         """
-        return concordance_index(labels_time, np.cumprod(y_pred[:,0:np.where(breaks>time*365)[0][0]], axis=1)[:,-1], labels_status)
+        
+        return concordance_index(labels_time, np.cumprod(y_pred[:,0:np.where(breaks>=time*365)[0][0]], axis=1)[:,-1], labels_status)
         
 
