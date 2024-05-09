@@ -213,7 +213,19 @@ class Eval:
         breaks: shape (n_intervals+1) -> [0, ..., n_intervals]
         time: point in time of interest in years
         """
+        to_late = np.where(breaks>time*365)
+        if len(to_late[0]) == 0:
+            relevant_intervals = y_pred
+        else:
+            relevant_intervals = y_pred[:, 0:to_late[0]]
         
-        return concordance_index(labels_time, np.cumprod(y_pred[:,0:np.where(breaks>=time*365)[0][0]], axis=1)[:,-1], labels_status)
+        cumulative_risk = np.cumprod(relevant_intervals, axis=1)[:, -1]
+
+        c_index = concordance_index(labels_time, cumulative_risk, labels_status)
+            
+            
+        return c_index
+        
+        
         
 
