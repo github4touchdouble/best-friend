@@ -45,8 +45,10 @@ class Reader:
         state = "Shape: " + str(df.shape) + "\n"
         state += "NaN rows: " + str(len(df[df.isna().any(axis=1)])) + "\n"
         Debug.puts(actor=Reader, status=101, message=state)
-
-
+    @staticmethod
+    def to_csv(df, path):
+        df.to_csv(path, index=False)
+        return path
 class Scaler:
     data_parameters = {}
     meta_parameters = {}
